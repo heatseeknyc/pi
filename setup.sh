@@ -17,6 +17,10 @@ sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat screen
 
+# initialize local database
+sudo apt-get -y install sqlite3
+sqlite3 heatseeknyc.db < schema.sql
+
 sudo pip-3.2 install -Ur requirements.txt
 
 mkdir -p ~/.ssh
