@@ -33,18 +33,54 @@ If you can't connect to a router, or something running a DHCP server, then you m
 On your Mac, with the SD card inserted, edit /Volumes/boot/cmdline.txt to set `ip=169.254.169.254`
 
 
-# How to set up an XBee from the π
+# DigiMesh Firmware
+We use the DigiMesh protocol instead of the zigbee protocol to conserve
+power. In zigbee, all nodes are coordinator nodes, so they must all be
+online all the time, requiring constant power draw. In DigiMesh, only
+the sleep coordinator needs to be online at all times, and the other
+nodes can remain asleep except when transmitting readings.
+
+## How to set up an XBee from the π
 1. Turn off and unplug the hub before plugging in a different XBee chip.
-1. Make sure nothing is talking to the XBee serial port. In particular, run `sudo supervisorctl stop receiver`
-1. Connect to the XBEE over serial, with `sudo screen /dev/ttyAMA0`
+1. Make sure nothing is talking to the XBee serial port. In particular, run `sudo supervisorctl stop receiver`.
+1. Connect to the XBEE over serial, with `sudo screen /dev/ttyAMA0`. If
+   screen doesn't work, try minicom with `sudo minicom -b 9600`.
+The -b flag specifies a baud rate. You may need to `apt-get install
+screen` or `apt-get install minicom`.
 1. Enter *command mode*, by typing `+++` and waiting to receive `OK`
-1. Restore the XBee to factory defaults, by typing `ATRE`, pressing return, and waiting to receive `OK`
+1. Restore the XBee to factory defaults, by typing `ATRE`, pressing return, and waiting to receive `OK`. Note that output gets overwritten each time. If you get multiple `OK`s, it may be hard to tell. You can confirm by sending `ATID` and pressing return to get the ID back, overwriting the output with something other than `OK`.
 1. Set each parameter from "DigiMesh Firmware" below. For example if you are setting up a Cell, type `ATD02`, press return, wait for `OK`, type `ATD50`, press return, wait for `OK`, et cetera…
 1. Make the changes permanent by writing to flash, by typing `ATWR`, pressing return, and waiting for `OK`.
 
-# DigiMesh Firmware
+### Hub
+#### configuring the sleep coordinator node
+The sleep coordinator is responsible for defining the sleep parameters
+for all the cells in the mesh, and preventing the cells from time
+drifting away from their siblings. It makes sense for the sleep
+coordinator to be installed on the hub since it will always be awake.
 
-## Cell
+It is important for the xbees attached to cells to be explicitly
+configured as a "non-sleep coordinator"; this prevents them from
+competing with the hub for control of the network. To do this, each
+cell's xbee must have the SO bit set to the value of 1.
+
+See [Sleep Settings within DigiMesh at
+digi.com](https://www.digi.com/wiki/developer/index.php/Sleep_Settings_within_DigiMesh)
+
+Also see [xbee pro
+manual](http://ftp1.digi.com/support/documentation/90000991_N.pdf)
+
+When configuring 
+
+- **AP** = 1 # turn on API mode (manual page 67)
+- **SM** = 7 # set sleep mode to Asynchronous cyclic sleep with pin wake-up (manual page 67)
+- **SO** = 0 # set to preferred sleep coordinator (manual page 67)
+- **SP** = 1 *thence 57A58 (59m50s)* # define the amount of time the module will sleep per cycle to 1 second (or 59m50s after setup) (manual page 67)
+- **ST** = 2710 (10s) # set the wake period of the module (manual page 68)
+
+### Cell
+#### configuring all other nodes
+Wire in thermometer by configuring pins.
 - **D0** = 2
 - **D5** = 0
 - **D7** = 0
@@ -52,11 +88,41 @@ On your Mac, with the SD card inserted, edit /Volumes/boot/cmdline.txt to set `i
 - **P0** = 0
 - **PR** = 80 *TODO in the future we'll use 0 for cell≥v0.4, when DIN/!CONFIG is grounded*
 - **IR** = FFFF
-- **SM** = 8
 
-## Hub
-- **AP** = 1
-- **SM** = 7
-- **SO** = 1
-- **SP** = 1 *thence 57A58 (59m50s)*
-- **ST** = 2710 (10s)
+- **SM** = 8 # set the sleep mode of the module to synchronous cyclic
+  sleep mode. (manual page 68)
+- **SO** = 1 # set sleep options to Non-sleep coordinator (manual page 67)
+
+### Diagnostics
+#### useful diagnostic queries when connected to node
+See manual pages 69 and 70.
+
+Send the command ATSS. This will return a hex value. [Convert it to
+binary](http://www.binaryhexconverter.com/hex-to-binary-converter)
+and check which bits are true. If bit 1 is true, the xbee is acting as a
+coordinator node.
+
+#### getting xbee IDs
+python3 -m hub.request_xbee_id
+sleep 6
+python3 -m hub.get_xbee_id
+
+
+### Network Setup
+1) Configure the hub
+  a) power off all cells/hubs
+  b) power on hub
+  c) setup using above bits
+  d) power down hub
+
+2) Configure cell
+  a) power off all cells/hubs
+  b) power on cell
+  c) setup using above bits
+  d) power down cell 
+
+Deployment Steps
+1) Power on sleep coordinator
+2) Power on each cell in range of sleep coordinator
+3) Distribute cells, ensuring they remain in range of the coordinator
+controlled mesh
