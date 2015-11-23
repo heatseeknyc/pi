@@ -10,8 +10,10 @@ logging.basicConfig(level=logging.INFO)
 
 
 def transmit(db, xbee_id):
-    for row in db.get_unrelayed_temperatures():
-        id, cell_id, temperature, sleep_period, timestamp = row
+    temperatures = db.get_unrelayed_temperatures()
+    if temperatures: logging.info('%s unrelayed temperatures', len(temperatures))
+
+    for id, cell_id, temperature, sleep_period, timestamp in temperatures:
         cell_id = common.hexlify(cell_id)
         data = dict(hub=xbee_id, cell=cell_id, temp=temperature, sp=sleep_period, time=timestamp)
         logging.info(data)
