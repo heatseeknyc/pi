@@ -49,8 +49,8 @@
 1. Eject the SD card, with Command+E in the Finder.
 1. Put the SD card in the π, connect the USB-to-ethernet adapter from the π to your router, and plug in the π!
 1. On a computer, try `ssh pi@raspberrypi.local`. If that doesn't work, run `nmap -p 22 --open 192.168.1.0/24` (with whatever your router's IP address range is) to find the ip address, and then run `ssh pi@192.168.1.108` (with the IP address you found). The password is 'raspberry'.
-1. Now you're on the π! Run `git clone https://github.com/heatseeknyc/firmware.git && cd firmware && bash setup.sh`
-1. The setup script will ask you to configure the π, which involves changing the password, setting up the timezone and keyboard layout, et cetera… It will then reboot and you should run `cd firmware && bash setup.sh` again, to finish the setup.
+1. Now you're on the π! Run `git clone https://github.com/heatseeknyc/firmware.git && cd firmware && bash build.sh`
+1. The setup script will ask you to configure the π, which involves changing the password, setting up the timezone and keyboard layout, et cetera… It will then reboot and you should run `cd firmware && bash build.sh` again, to finish the setup.
 1. Unplug the ethernet adapter and replace it with the 3G modem, and wait for the modem light to turn solid blue.
 1. Go to http://relay.heatseeknyc.com and enter the hub's XBee id (e.g. `0013a20040c17e5a`) and you should be able to see some info.
 1. If you put batteries in cells their readings should start showing up on the Relay site. Though this all depends on the XBees having the correct settings, see "DigiMesh Firmware" below for those settings, which can be changed programatically from the π if you know what you're doing (see `hub/hourly.py` for an example) or can be changed with Digi's xctung software on your Mac using a [dongle](https://www.sparkfun.com/products/11697)
