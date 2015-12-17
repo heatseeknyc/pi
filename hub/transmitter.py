@@ -13,9 +13,9 @@ def transmit(db, xbee_id):
     temperatures = db.get_unrelayed_temperatures()
     if temperatures: logging.info('%s unrelayed temperatures', len(temperatures))
 
-    for id, cell_id, temperature, sleep_period, timestamp in temperatures:
+    for id, cell_id, adc, sleep_period, timestamp in temperatures:
         cell_id = common.hexlify(cell_id)
-        data = dict(hub=xbee_id, cell=cell_id, temp=temperature, sp=sleep_period, time=timestamp)
+        data = dict(hub=xbee_id, cell=cell_id, adc=adc, sp=sleep_period, time=timestamp)
         logging.info(data)
         response = requests.post('http://relay.heatseeknyc.com/temperatures/', data)
         if response.status_code == 200: db.set_relayed_temperature(id)

@@ -16,14 +16,14 @@ class _Database:
     def __init__(self, db):
         self.db = db
 
-    def insert_temperature(self, cell_id, temperature, sleep_period):
+    def insert_temperature(self, cell_id, adc, sleep_period):
         with self.db:
-            self.db.execute('insert into temperatures (cell_id, temperature, sleep_period)'
-                            ' values (?, ?, ?)', (cell_id, temperature, sleep_period))
+            self.db.execute('insert into temperatures (cell_id, adc, sleep_period)'
+                            ' values (?, ?, ?)', (cell_id, adc, sleep_period))
 
     def get_unrelayed_temperatures(self):
         with self.db:
-            return self.db.execute('select rowid, cell_id, temperature, sleep_period, time'
+            return self.db.execute('select rowid, cell_id, adc, sleep_period, time'
                                    ' from temperatures where relayed_time is null').fetchall()
 
     def set_relayed_temperature(self, id):
