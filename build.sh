@@ -15,7 +15,7 @@ fi
 set -ex
 
 sudo apt-get update
-sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat
+sudo apt-get -y install usb-modeswitch wvdial supervisor python3-pip vnstat sqlite3
 
 # TODO this doesn't work during setup without a modem
 # sudo vnstat -u -i ppp0  # start vnstat listening on ppp0 database
