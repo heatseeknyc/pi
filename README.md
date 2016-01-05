@@ -99,27 +99,26 @@ On your Mac, with the SD card inserted, edit /Volumes/boot/cmdline.txt to set `i
 First off, you need a linux machine and must be uid 1000, usually this is the first user created on the system. 
 to find out your id, run this command: `id`
 Then find a free loop device:
-```
-sudo losetup -f
-```
+
+    sudo losetup -f
+
 usually that will return `loop0` but if not, use whatever it returns in the place of `loop0` in the commands below.
 next, load the image into the loop device and mount it.
-```
-sudo losetup /dev/loop0 ~/heatseekos.img
-sudo mount /dev/loop0p2 /mnt
-```
+
+    sudo losetup /dev/loop0 ~/heatseekos.img
+    sudo mount /dev/loop0p2 /mnt
+
 next, edit the files to your hearts content in the /mnt directory of your linux machine.
 finally unmount the image to save it:
-```
-sudo umount /mnt
-sudo losetup -d /dev/loop0
-```
+
+    sudo umount /mnt
+    sudo losetup -d /dev/loop0
+
 to flash this new image to an sd card, first find out the device name of the sdcard. `/dev/disk3` or `/dev/sdb` etc.
-```
-sudo dd bs=4M if=./heatseekos.img of=/dev/sdb
-```
+
+    sudo dd bs=4M if=heatseekos.img of=/dev/sdb
+
 for a progress meter, use `pv` aquired by: `sudo apt-get install -y pv`
-```
-sudo -s 
-dd bd=4M if=./heatseekos.img | pv | dd of=/dev/sdb
-```
+
+    sudo -s 
+    dd bs=4M if=heatseekos.img | pv | dd bs=4M of=/dev/sdb
