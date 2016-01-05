@@ -120,5 +120,4 @@ to flash this new image to an sd card, first find out the device name of the sdc
 
 for a progress meter, use `pv` aquired by: `sudo apt-get install -y pv`
 
-    sudo -s 
-    dd bs=4M if=heatseekos.img | pv | dd bs=4M of=/dev/sdb
+    dd bs=4M if=heatseekos.img | pv | sudo dd bs=4M of=/dev/sdb
