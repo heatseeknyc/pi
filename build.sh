@@ -1,6 +1,7 @@
 ##
-## Run this script on a fresh copy of Raspbian Jessie Lite, with the command:
-## curl https://raw.githubusercontent.com/heatseeknyc/firmware/master/build.sh | bash
+## Run this script on a fresh copy of Raspbian Jessie Lite, with the commands:
+## curl -O https://raw.githubusercontent.com/heatseeknyc/firmware/master/build.sh
+## bash build.sh
 ##
 
 set -e
@@ -22,8 +23,9 @@ and copy it to ~/firmware/conf/secret/id_rsa
 (for example, from your laptop:
 scp hub_root_id_rsa pi@raspberrypi.local:firmware/conf/secret/id_rsa
 -or-
-ssh pi@raspberry.local "cat > firmware/conf/secret/id_rsa"
-and then paste the secret key contents and then press Control-D)
+ssh pi@raspberrypi.local "cat > firmware/conf/secret/id_rsa"
+then paste the secret key contents, press return, and press Control-D)
+
 EOF
     read -p 'Press enter when done.'
 done
@@ -47,6 +49,7 @@ export LANG=en_US.utf8  # doesn't get properly set until reboot
 
 sudo apt-get update
 sudo apt-get -y install \
+     git \
      python3-pip \
      sqlite3 \
      supervisor \
