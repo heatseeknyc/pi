@@ -13,7 +13,7 @@ fi
 
 cd ~
 
-mkdir secret
+mkdir -p secret
 while [ ! -f "secret/id_rsa" ]; do
     cat <<EOF
 Ask a friend for the hub secret key,
