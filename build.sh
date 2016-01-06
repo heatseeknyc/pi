@@ -50,7 +50,7 @@ export LANG=en_US.utf8  # doesn't get properly set until reboot
 sudo apt-get update
 sudo apt-get -y install \
      git \
-     python3 \
+     python3-pip \
      sqlite3 \
      supervisor \
      usb-modeswitch \
@@ -63,8 +63,7 @@ sudo apt-get -y install \
 git clone -b master https://github.com/heatseeknyc/firmware.git  # don't use default dev branch in production
 cd firmware
 
-sudo easy_install3 pip  # the python3-pip package in apt-get breaks when we update 'requests'...
-sudo pip3 install -Ur requirements.txt
+sudo pip3 install -r requirements.txt
 
 sqlite3 ~/heatseeknyc.db < schema.sql
 
