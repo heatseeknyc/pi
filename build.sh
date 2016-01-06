@@ -13,18 +13,18 @@ fi
 
 cd ~
 
-mkdir -p firmware/conf/secret
-while [ ! -f "firmware/conf/secret/id_rsa" ]; do
+mkdir secret
+while [ ! -f "secret/id_rsa" ]; do
     cat <<EOF
 Ask a friend for the hub secret key,
 or get it from /root/.ssh/id_rsa on an existing hub,
-and copy it to ~/firmware/conf/secret/id_rsa
+and copy it to ~/secret/id_rsa
 
 (for example, from your laptop:
-scp hub_root_id_rsa pi@raspberrypi.local:firmware/conf/secret/id_rsa
+scp hub_root_id_rsa pi@raspberrypi.local:secret/id_rsa
 -or-
-ssh pi@raspberrypi.local "cat > firmware/conf/secret/id_rsa"
-then paste the secret key contents, press return, and press Control-D)
+ssh pi@raspberrypi.local "cat > secret/id_rsa"
+and then paste the secret key contents, press return, and press Control-D)
 
 EOF
     read -p 'Press enter when done.'
@@ -73,7 +73,7 @@ cp conf/relay_rsa.pub ~/.ssh/authorized_keys
 
 # allow passwordless ssh from hubs to the relay server to establish the reverse tunnel:
 sudo mkdir -p /root/.ssh
-sudo cp conf/id_rsa.pub conf/secret/id_rsa /root/.ssh
+sudo cp conf/id_rsa.pub ~/secret/id_rsa /root/.ssh
 sudo chmod 600 /root/.ssh/id_rsa
 echo "Establishing relay.heatseeknyc.com as a known host, enter 'yes' if prompted:"
 sudo ssh hubs@relay.heatseeknyc.com echo Success.
