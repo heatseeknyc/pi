@@ -80,10 +80,7 @@ sudo ssh hubs@relay.heatseeknyc.com echo Success.
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
 sudo sed -i 's/^usepeerdns/# usepeerdns/' /etc/ppp/peers/wvdial
-sudo tee /etc/resolv.conf << EOF
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-EOF
+sudo cp conf/resolv.conf /etc
 sudo chattr +i /etc/resolv.conf
 
 sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
