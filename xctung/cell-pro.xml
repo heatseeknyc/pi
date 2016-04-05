@@ -42,7 +42,7 @@
       <setting command="P0">0</setting>
       <setting command="P1">0</setting>
       <setting command="P2">0</setting>
-      <setting command="PR">80</setting>
+      <setting command="PR">1DEF</setting>
       <setting command="M0">0</setting>
       <setting command="M1">0</setting>
       <setting command="LT">0</setting>
