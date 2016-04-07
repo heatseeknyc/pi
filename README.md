@@ -83,7 +83,7 @@ On your Mac, with the SD card inserted, edit /Volumes/boot/cmdline.txt to set `i
 - **D7** = 0
 - **D8** = 0
 - **P0** = 0
-- **PR** = 80 *TODO in the future we'll use 0 for cell≥v0.4, when DIN/!CONFIG is grounded*
+- **PR** = 1DEF *default is 1FFF, but we turn off the pullups for AD0 (5th bit) and !SLEEP (10th bit)*
 - **IR** = FFFF
 - **SM** = 8
 
