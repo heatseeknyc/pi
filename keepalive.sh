@@ -1,6 +1,6 @@
 
 while true; do
-    if ! ping -c 1 relay.heatseeknyc.com; then
+    if ! ping -c 1 http://relay-dev.heatseek.org; then
         if ! ping -c 1 google.com; then
             if (( ++failures >= 1000 )); then  # every 17 hours
                 echo "$failures failures, killing usb."

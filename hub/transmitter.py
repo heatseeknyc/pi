@@ -17,7 +17,7 @@ def transmit(db, xbee_id):
         cell_id = common.hexlify(cell_id)
         data = dict(hub=xbee_id, cell=cell_id, adc=adc, sp=sleep_period, time=timestamp)
         logging.info(data)
-        response = requests.post('http://relay.heatseeknyc.com/temperatures/', data)
+        response = requests.post('http://relay-dev.heatseek.org/temperatures/', data)
         if response.status_code == 200: db.set_relayed_temperature(id)
         else: logging.error('bad response: %s', response)
         time.sleep(1)

@@ -67,16 +67,16 @@ sudo pip3 install -r requirements.txt
 
 sqlite3 ~/heatseeknyc.db < schema.sql
 
-# allow passwordless ssh from the relay server to hubs:
+# allow passwordless ssh from the tunnel server to hubs:
 mkdir -p ~/.ssh
 cp conf/relay_rsa.pub ~/.ssh/authorized_keys
 
-# allow passwordless ssh from hubs to the relay server to establish the reverse tunnel:
+# allow passwordless ssh from hubs to the tunnel server to establish the reverse tunnel:
 sudo mkdir -p /root/.ssh
 sudo cp conf/id_rsa.pub ~/secret/id_rsa /root/.ssh
 sudo chmod 600 /root/.ssh/id_rsa
-echo "Establishing relay.heatseeknyc.com as a known host, enter 'yes' if prompted:"
-sudo ssh hubs@relay.heatseeknyc.com echo Success.
+echo "Establishing tunnel.heatseek.org as a known host, enter 'yes' if prompted:"
+sudo ssh hubs@tunnel.heatseek.org echo Success.
 
 sudo ln -sf $PWD/conf/wvdial.conf /etc/
 sudo sed -i 's/^usepeerdns/# usepeerdns/' /etc/ppp/peers/wvdial
