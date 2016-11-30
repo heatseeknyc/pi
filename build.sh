@@ -83,6 +83,9 @@ sudo sed -i 's/^usepeerdns/# usepeerdns/' /etc/ppp/peers/wvdial
 sudo cp conf/resolv.conf /etc
 sudo chattr +i /etc/resolv.conf
 
+# enable UART for talking to XBee
+sudo sed -i 's/^enable_uart=0/enable_uart=1/' /boot/config.txt
+
 sudo ln -s $PWD/conf/supervisor.conf /etc/supervisor/conf.d/heatseeknyc.conf
 
 cat <<EOF
