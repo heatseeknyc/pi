@@ -23,7 +23,7 @@ while true; do
     # settings have changed or 10 minutes have passed, so time to send a heartbeat:
 
     # TODO also send $(vnstat -i ppp0 --oneline)
-    disk_free=$(df /dev/root | tail -1 | awk '{print $4}')
+    disk_free=$(df | grep '/dev/root' | awk '{print $4}')
     uptime=$(awk '{print $1}' /proc/uptime)
     version=$(git describe --tags --always)
     data="pi=$pi_id&sp=$sleep_period&free=$disk_free&up=$uptime&v=$version&port=$port"
