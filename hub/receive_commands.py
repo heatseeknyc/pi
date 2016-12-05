@@ -8,28 +8,6 @@ from . import common, database, xbee
 
 logging.basicConfig(level=logging.INFO)
 
-def send(frame, xb):
-    print('sending {}'.format(frame))
-    xb.write(frame)
-    print('sent')
-
-def update_sleep_period(sleep_period):
-    with serial.Serial('/dev/ttyAMA0') as xb:
-        logging.info('connected to xbee.')
-
-        # 'aggregate' all cells in default broadcast mode to point to us instead:
-        # TODO do this more than once?
-        send(xbee.at_frame('AG', b'\xFF\xFF'), xb)
-        time.sleep(0.1)
-
-        # set sleep period, and write changes to persistent flash
-        send(xbee.at_frame('SP', xbee.int_to_bytes(sleep_period, 4)), xb)
-        time.sleep(0.1)
-        send(xbee.at_frame('WR'), xb)
-        time.sleep(0.1)
-
-        send(xbee.at_frame('SP'), xb)  # read new sleep period into db
-
 
 @common.main
 def main():
@@ -48,7 +26,7 @@ def main():
                         if action == 'change_sleep_period':
                             sleep_period = int(param)
                             logging.error('updating sleep period to %s', sleep_period)
-                            update_sleep_period(sleep_period)
+                            xbee.update_sleep_period(sleep_period)
                             break
                 else:
                     logging.error('bad response: %s', response)
