@@ -2,7 +2,6 @@ import logging
 import time
 import json
 import requests
-import serial
 
 from . import common, database, xbee
 

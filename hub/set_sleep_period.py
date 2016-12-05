@@ -1,7 +1,4 @@
 import argparse
-import logging
-import time
-import serial
 
 from . import common, xbee
 

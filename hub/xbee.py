@@ -1,3 +1,6 @@
+import serial
+import logging
+import time
 
 BYTEORDER = 'big'
 START = b'\x7E'
