@@ -27,7 +27,7 @@ while true; do
     uptime=$(awk '{print $1}' /proc/uptime)
     version=$(git describe --tags --always)
     data="pi=$pi_id&sp=$sleep_period&free=$disk_free&up=$uptime&v=$version&port=$port"
-    url="http://relay-dev.heatseek.org/hubs/$xbee_id"
+    url="http://relay.heatseek.org/hubs/$xbee_id"
     echo "putting $data at $url"
     if curl --silent --show-error --fail --request PUT --data "$data" "$url"; then
         echo  # server response often has no newline

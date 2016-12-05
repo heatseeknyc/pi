@@ -17,7 +17,7 @@ def main():
             if db.get_sleep_period() == 1:
                 xbee_id = common.hexlify(db.get_xbee_id())
 
-                response = requests.get('http://relay-dev.heatseek.org/hubs/{}/commands'.format(xbee_id))
+                response = requests.get('http://relay.heatseek.org/hubs/{}/commands'.format(xbee_id))
 
                 if response.status_code == 200:
                     for command in response.json():
